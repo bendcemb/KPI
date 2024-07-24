@@ -13,7 +13,8 @@ namespace KPI01
 {
     public partial class Form04 : System.Web.UI.Page
     {
-        string conStr = ConfigurationManager.ConnectionStrings["strConnKpi"].ConnectionString;
+        //string conStr = ConfigurationManager.ConnectionStrings["strConnKpi"].ConnectionString;
+        string conStr = ConfigurationManager.ConnectionStrings["ConStrBen"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -55,15 +56,20 @@ namespace KPI01
                            ON A.kpi_id = B.kpi_id
                            WHERE yr = @Year";
 
-            SqlConnection con = new SqlConnection(conStr);
-            SqlCommand cmd = new SqlCommand(query, con);
-            cmd.Parameters.AddWithValue("@Year", ddlYear.Text);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
+            using (SqlConnection con = new SqlConnection(conStr))
+            {
+                con.Open();
 
-            grv1.DataSource = dataTable;
-            grv1.DataBind();
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Year", ddlYear.Text);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                grv1.DataSource = dataTable;
+                grv1.DataBind();
+            }
+
         }
 
         protected void ddlYear_SelectedIndexChanged(object sender, EventArgs e)
