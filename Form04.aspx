@@ -38,6 +38,11 @@
             background: #808080;
             color: white;
         }
+
+        .text-wrap-x {
+            word-wrap: break-word;
+            white-space: normal; /* ทำให้ข้อความสามารถแสดงผลเป็นหลายบรรทัดได้ */
+        }
     </style>
 
     <div class="container">
@@ -98,10 +103,11 @@
                             </ItemTemplate>
                         </asp:TemplateField>
 
-                        <%--        <asp:BoundField DataField="souce" HeaderText="Source">
-                 <ItemStyle Width="50px" />
-                 <HeaderStyle Width="50px" />
-             </asp:BoundField>--%>
+                        <asp:TemplateField HeaderText="แหล่งข้อมูล" ItemStyle-Wrap="true">
+                            <ItemTemplate>
+                                <asp:Label ID="lblsouce" runat="server" Text='<%# Eval("souce") %>' CssClass="text-wrap-x" Width="80px"></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
                         <asp:BoundField DataField="unit" HeaderText="Unit">
                             <ItemStyle Width="200px" />
